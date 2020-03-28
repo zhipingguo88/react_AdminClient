@@ -11,6 +11,20 @@ export default class login extends Component {
     console.log(values.username,values.password)
     alert('发送ajax请求')
   }
+  validatePwd = ( _ , value) =>{
+    value=value.trim()
+    if(!value){
+      return Promise.reject('密码必须输入')
+    }else if(value.length<4){
+      return Promise.reject('密码不能小于4位')
+    }else if(value.length>12){
+      return Promise.reject('密码不能大于12位')
+    }else if(!/^[a-zA-Z0-9_]+$/){
+      return Promise.reject('密码必须为英文数字和下划线的组合')
+    }else{
+      return Promise.resolve()
+    }
+  }
   render() {
     return (
       <div className='login'>
@@ -27,16 +41,13 @@ export default class login extends Component {
               {required:true,message:'用户名是必须的'},
               {min:4,message:'用户名不能小于4位'},
               {max:12,message:'用户名不能大于12位'},
-              {pattern:/^[a-zA-Z0-9]+$/,message:'用户名是必须是英文数字或下划线'},
+              {pattern:/^[a-zA-Z0-9_]+$/,message:'用户名是必须是英文数字或下划线'},
               ]}>
               <Input prefix={<UserOutlined type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
                      placeholder="用户名"/>
             </Item>
             <Item name='password' rules={[
-              {required:true,whitespace:true,message:'用户名是必须的'},
-              {min:4,message:'用户名不能小于4位'},
-              {max:12,message:'用户名不能大于12位'},
-              {pattern:/^[a-zA-Z0-9]+$/,message:'用户名是必须是英文数字或下划线'},
+              {validator:this.validatePwd},
               ]}>
               <Input prefix={<LockOutlined type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
                      type="password" placeholder="密码"/>

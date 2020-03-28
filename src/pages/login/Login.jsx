@@ -7,10 +7,8 @@ import './login.less'
 const Item = Form.Item
 
 export default class login extends Component {
-
-  handleSubmit= e =>{
-    e.preventDefault()
-    alert('发送登录的ajax请求')
+  onFinish = values => {
+    alert('发送ajax请求')
   }
   render() {
     return (
@@ -22,7 +20,8 @@ export default class login extends Component {
 
         <section className='login-content'>
           <h3>用户登陆</h3>
-          <Form onSubmit={this.handleSubmit} className="login-form">
+
+          <Form onFinish={this.onFinish} className="login-form">
             <Item>
               <Input prefix={<UserOutlined type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
                      placeholder="用户名"/>

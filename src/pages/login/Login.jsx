@@ -8,9 +8,12 @@ const Item = Form.Item
 
 export default class login extends Component {
   onFinish = values => {
-    console.log(values.username,values.password)
-    alert('发送ajax请求')
+    alert(`发送ajax请求,username=${values.username},password=${values.password}`)
   }
+  /* 
+      对密码进行自定义认证，(rule, value) => Promise，注意这里返回的是一个Promise对象
+  */
+  
   validatePwd = ( _ , value) =>{
     value=value.trim()
     if(!value){
@@ -36,7 +39,7 @@ export default class login extends Component {
         <section className='login-content'>
           <h3>用户登陆</h3>
 
-          <Form name='user' onFinish={this.onFinish} className="login-form">
+          <Form name='user'  initialValues={{remember: true}} className="login-form" onFinish={this.onFinish}>
             <Item name='username' rules={[
               {required:true,message:'用户名是必须的'},
               {min:4,message:'用户名不能小于4位'},

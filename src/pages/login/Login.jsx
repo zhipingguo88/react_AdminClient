@@ -5,7 +5,13 @@ import logo from './images/logo.png'
 import './login.less'
 
 const Item = Form.Item
+
 export default class login extends Component {
+
+  handleSubmit= e =>{
+    e.preventDefault()
+    alert('发送登录的ajax请求')
+  }
   render() {
     return (
       <div className='login'>
@@ -16,7 +22,7 @@ export default class login extends Component {
 
         <section className='login-content'>
           <h3>用户登陆</h3>
-          <Form onSubmit={this.login} className="login-form">
+          <Form onSubmit={this.handleSubmit} className="login-form">
             <Item>
               <Input prefix={<UserOutlined type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
                      placeholder="用户名"/>

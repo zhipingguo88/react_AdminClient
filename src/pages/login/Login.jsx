@@ -1,14 +1,25 @@
 import React, { Component } from 'react'
-import {Form,Input,Button} from 'antd'
+import {Form,Input,Button,message} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+
+
+import {reqLogin} from '../../api/index.js'
 import logo from './images/logo.png'
 import './login.less'
 
 const Item = Form.Item
 
 export default class login extends Component {
-  onFinish = values => {
-    alert(`发送ajax请求,username=${values.username},password=${values.password}`)
+  onFinish = async values => {
+    const result = await reqLogin(values.username,values.password)
+    // alert(`发送ajax请求,username=${values.username},password=${values.password}`)
+    if (result.status===0){
+      // 跳转到管理界面
+      message.success('登陆成功')
+      this.props.history.replace('/')
+    }else{
+      message.error(result.msg)
+    }
   }
   /* 
       对密码进行自定义认证，(rule, value) => Promise，注意这里返回的是一个Promise对象

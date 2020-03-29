@@ -1,5 +1,6 @@
 /* 
     包含n个应用中所有请求接口的函数：请求接口函数
+    函数的返回值都是promise对象
 */
 import ajax from './ajax'
 import qs from 'qs'

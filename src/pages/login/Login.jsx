@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import {Form,Input,Button,message} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-
+import {Redirect} from 'react-router-dom'
+import storageUtils from '../../utils/storageUtils'
+import memoryUtils from '../../utils/memoryUtils'
 
 import {reqLogin} from '../../api/index.js'
 import logo from './images/logo.png'
@@ -14,6 +16,12 @@ export default class login extends Component {
     const result = await reqLogin(values.username,values.password)
     // alert(`发送ajax请求,username=${values.username},password=${values.password}`)
     if (result.status===0){
+      //将user信息储存到local中,注意这里localStorage.item（）中第二个参数必须是string类型的，如果要储存json对象需要stringify方法
+      const user = result.data
+      // localStorage.setItem('user_key',JSON.stringify(user))
+      storageUtils.saveUser(user)
+      // 保存在内存中
+      memoryUtils.user=user
       // 跳转到管理界面
       message.success('登陆成功')
       this.props.history.replace('/')
@@ -40,6 +48,14 @@ export default class login extends Component {
     }
   }
   render() {
+
+    // const user = JSON.parse(localStorage.getItem('user_key') || '{}')
+    const user = memoryUtils.user
+    if(user._id){
+      //this.props.history.replace('/login') //这种方式是用在事件回调函数中进行路由跳转, 不能使用render（）中使用
+      return <Redirect to="/"/> //react-router-dom中路由器组件专门提供方法，自动跳转到指定的路由路径
+    }
+
     return (
       <div className='login'>
         <header className='login-header'>
